@@ -1,28 +1,46 @@
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 
 const Products = () => {
-  const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const fetchProducts = async () => {
+    const response = await fetch("https://dummyjson.com/product");
+    const data = await response.json();
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-        const response = await fetch("https://dummyjson.com/product");
-        const data = await response.json();
-        console.log(data.products);
-        setProducts(data.products);
-        setIsLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setIsLoading(false);
-      }
-    };
-    fetchProducts();
-  }, []);
+    return data.products;
+  };
+
+  const {
+    isLoading,
+    error,
+    data: products,
+  } = useQuery({
+    // ! We pass an array in the queryKey, and inside we pass a string, which is used to cache the data using that key
+    queryKey: ["products"],
+    queryFn: fetchProducts,
+  });
+
+  // const [products, setProducts] = useState([]);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState(null);
+
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     try {
+  //       setIsLoading(true);
+  //       setError(null);
+  //       const response = await fetch("https://dummyjson.com/product");
+  //       const data = await response.json();
+  //       console.log(data.products);
+  //       setProducts(data.products);
+  //       setIsLoading(false);
+  //     } catch (err) {
+  //       setError(err.message);
+  //       setIsLoading(false);
+  //     }
+  //   };
+  //   fetchProducts();
+  // }, []);
 
   if (isLoading) {
     return <h3>Loading...</h3>;
