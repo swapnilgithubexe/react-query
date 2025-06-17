@@ -18,6 +18,9 @@ const Products = () => {
     // ! We pass an array in the queryKey, and inside we pass a string, which is used to cache the data using that key
     queryKey: ["products"],
     queryFn: fetchProducts,
+
+    // ? cached data will get stale after sometime when set otherwise infinity and can be set in query client initialization: check main.js
+    // staleTime: 10000, //10 seconds
   });
 
   // const [products, setProducts] = useState([]);
