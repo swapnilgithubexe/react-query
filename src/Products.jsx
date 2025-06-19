@@ -21,6 +21,7 @@ const Products = () => {
 
     // ? cached data will get stale after sometime when set otherwise infinity and can be set in query client initialization: check main.js
     // staleTime: 10000, //10 seconds
+    //! Local stale time
   });
 
   // const [products, setProducts] = useState([]);
